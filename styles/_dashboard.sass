@@ -14,9 +14,8 @@ $grayBg: #e0e0e0
         @return #0b931a
 
 @function getResult($result)
-    $percent: 100-$result
-    $finalPercent: percentage($percent/100)
-    @return $grayBg $finalPercent, resultColor($result) $finalPercent
+    $finalPercent: percentage($result/100)
+    @return resultColor($result) $finalPercent, $grayBg $finalPercent
 
 .block
     width: 200px
@@ -29,7 +28,7 @@ $grayBg: #e0e0e0
     @for $i from 1 through length($results)
         &:nth-child(#{$i})
             .circle__inner
-                background: linear-gradient(0deg, $grayBg 0%, getResult(nth($results, $i)))
+                background: linear-gradient(180deg, resultColor(nth($results, $i)) 0%, getResult(nth($results, $i)))
             .result
                 &::after
                     content: '#{nth($results, $i)}%'
