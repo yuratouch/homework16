@@ -1,0 +1,63 @@
+$results: [7,23,41,62,85]
+$grayBg: #e0e0e0
+
+@function resultColor($result)
+    @if $result < 15
+        @return #fc3924
+    @if $result >= 15 and $result <35
+        @return #fccf24
+    @if $result >= 35 and $result <50
+        @return #ebef5f
+    @if $result >= 50 and $result <80
+        @return #77e283
+    @else
+        @return #0b931a
+
+@function getResult($result)
+    $percent: 100-$result
+    $finalPercent: percentage($percent/100)
+    @return $grayBg $finalPercent, resultColor($result) $finalPercent
+
+.block
+    width: 200px
+    height: 200px
+    border-radius: 10px
+    background-color: $grayBg
+    display: flex
+    justify-content: center
+    align-items: center
+    @for $i from 1 through length($results)
+        &:nth-child(#{$i})
+            .circle__inner
+                background: linear-gradient(0deg, $grayBg 0%, getResult(nth($results, $i)))
+            .result
+                &::after
+                    content: '#{nth($results, $i)}%'
+                    color: resultColor(nth($results, $i))
+
+.circle
+    width: 170px
+    height: 170px
+    border-radius: 50%
+    background: #ffffff
+    display: flex
+    justify-content: center
+    align-items: center
+    &__inner
+        width: 160px
+        height: 160px
+        border-radius: 50%
+        display: flex
+        justify-content: center
+        align-items: center
+
+.result
+    width: 120px
+    height: 120px
+    border-radius: 50%
+    display: flex
+    justify-content: center
+    align-items: center
+    background-color: #ffffff
+    font-size: 40px
+    font-weight: bold
